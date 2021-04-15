@@ -1,12 +1,19 @@
 import React from 'react';
-import AppHeader from '../app-header';
-import SearchPanel from '../search-panel';
-import PostStatusFilter from '../post-status-filter';
-import PostList from '../post-list';
-import PostAddForm from '../post-add-form';
+import AppHeader from '../app-header/app-header.js';
+import SearchPanel from '../search-panel/search-panel.js';
+import PostStatusFilter from '../post-status-filter/post-status-filter.js';
+import PostList from '../post-list/post-list.js';
+import PostAddForm from '../post-add-form/post-add-form.js';
 import './app.css';
 
 const App = () => {
+
+  const data = [
+    {label: "Going to lealrn React", important: true, id: 'a'},
+    {label: "That so is good", important: false, id: 'b'},
+    {label: "I need a break", important: false, id: 'c'}
+  ];
+
   return (
     <div className="app">
       <AppHeader/>
@@ -14,7 +21,7 @@ const App = () => {
         <SearchPanel/>
         <PostStatusFilter/>
       </div>
-      <PostList/>
+      <PostList posts={data}/>
       <PostAddForm/>
     </div>
   )
