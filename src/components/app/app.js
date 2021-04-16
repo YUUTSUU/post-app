@@ -7,9 +7,8 @@ import PostAddForm from '../post-add-form/post-add-form.js';
 import './app.css';
 
 const App = () => {
-
   const data = [
-    {label: "Going to lealrn React", important: true, id: 'a'},
+    {label: "Going to lealrn React", important: false, id: 'a'},
     {label: "That so is good", important: false, id: 'b'},
     {label: "I need a break", important: false, id: 'c'}
   ];

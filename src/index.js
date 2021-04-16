@@ -8,13 +8,15 @@ import App from './components/app/app.js';
 // class WhoAmI extends React.Component {
 //   constructor(props) {
 //     super(props);
-//     this.state = {years: 0};
+//     this.state = {
+//       years: 0
+//     };
 //     this.nextYear = this.nextYear.bind(this);
 //     // this.nextYear = () => {this.setState(() => ({years: this.state.years + 1}))};
 //   }
 
 //   nextYear() {
-//     this.setState(() => ({years: this.state.years + 1}));
+//     this.setState((state) => ({years: state.years + 1}));
 //   }
 
 //   render() {
