@@ -4,7 +4,17 @@ import SearchPanel from '../search-panel/search-panel.js';
 import PostStatusFilter from '../post-status-filter/post-status-filter.js';
 import PostList from '../post-list/post-list.js';
 import PostAddForm from '../post-add-form/post-add-form.js';
-import './app.css';
+
+// import Style from './App.module.css';
+// import './app.css';
+// import './app.sass'; //так же можно использовать scss
+import styled from 'styled-components';
+
+const Div = styled.div`
+  margin: 0 auto;
+  max-width: 800px;
+`;
+
 
 const App = () => {
   const data = [
@@ -14,7 +24,7 @@ const App = () => {
   ];
 
   return (
-    <div className="app">
+    <Div>
       <AppHeader/>
       <div className="search-panel d-flex">
         <SearchPanel/>
@@ -22,7 +32,7 @@ const App = () => {
       </div>
       <PostList posts={data}/>
       <PostAddForm/>
-    </div>
+    </Div>
   )
 }
 
