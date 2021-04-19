@@ -16,24 +16,85 @@ const Div = styled.div`
 `;
 
 
-const App = () => {
-  const data = [
-    {label: "Going to lealrn React", important: false, id: 'a'},
-    {label: "That so is good", important: false, id: 'b'},
-    {label: "I need a break", important: false, id: 'c'}
-  ];
+class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <Div>
-      <AppHeader/>
-      <div className="search-panel d-flex">
-        <SearchPanel/>
-        <PostStatusFilter/>
-      </div>
-      <PostList posts={data}/>
-      <PostAddForm/>
-    </Div>
-  )
+    this.id = 0;
+    this.state = {
+      data: [
+        {label: "Going to lealrn React", important: false, id: this.id++},
+        {label: "That so is good", important: false, id: this.id++},
+        {label: "I need a break", important: false, id: this.id++}
+      ]
+    };
+    this.deleteItem = this.deleteItem.bind(this);
+    this.addItem = this.addItem.bind(this);
+    this.newData = [];
+    // this.counter();
+  }
+
+  // counter() {
+  //   this.state.data.forEach((item, i) => {
+  //     console.log(i);
+  //   })
+  //   for (let i; i < this.state.data; i++) {
+  //     console.log(i);
+  //   }
+  //   this.state.data.find(item => {
+  //     return console.log(item);
+  //   })
+  //   this.state.data.map((item, i) => {
+  //     return this.id = i
+  //   })
+  //   // console.log(this.state.data.lenght);
+  // }
+
+  deleteItem(id) {
+    this.setState(() => {
+    const index = this.state.data.findIndex(item => item.id === id);
+    // const newData = [...this.state.data.slice(0, index), ...this.state.data.slice(index + 1)];
+      this.newData = [...this.state.data.slice(0, index), ...this.state.data.slice(index + 1)]
+      console.log(this.newData);
+      return {
+        // data: newData
+        data: this.newData
+      }
+    });
+  }
+
+  addItem(value) {
+    const newItem = {
+      label: value,
+      important: false,
+      id: this.id++
+    }
+    this.setState(() => {
+      // const newData = [...this.state.data, newItem];
+      this.newData = [...this.state.data, newItem]
+      console.log(this.newData);
+      return {
+        // data: newData
+        data: this.newData
+      }
+
+    })
+  }
+
+  render() {
+    return (
+      <Div>
+        <AppHeader/>
+        <div className="search-panel d-flex">
+          <SearchPanel/>
+          <PostStatusFilter/>
+        </div>
+        <PostList postsApp={this.state.data} deleteApp={this.deleteItem}/>
+        <PostAddForm addApp={this.addItem}/>
+      </Div>
+    )
+  }
+  
 }
 
 export default App;

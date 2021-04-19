@@ -13,7 +13,7 @@ class PostListItem extends React.Component {
   }
 
   onImportant() {
-    this.setState(() => ({important: !this.state.important}));
+    this.setState((state) => ({important: !state.important}));
   }
 
   onLike() {
@@ -37,7 +37,7 @@ class PostListItem extends React.Component {
           <button type="button" className="btn-star btn-sm" onClick={this.onImportant}>
             <i className="fa fa-star"></i>
           </button>
-          <button type="button" className="btn-trash btn-sm" onClick={this.props.onDelete}>
+          <button type="button" className="btn-trash btn-sm" onClick={this.props.delete}>
             <i className="fa fa-trash-o"></i>
           </button>
           <i className="fa fa-heart"></i>
