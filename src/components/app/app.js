@@ -23,39 +23,25 @@ class App extends React.Component {
     this.id = 0;
     this.state = {
       data: [
-        {label: "Going to lealrn React", important: false, id: this.id++},
-        {label: "That so is good", important: false, id: this.id++},
-        {label: "I need a break", important: false, id: this.id++}
+        {label: "Going to lealrn React", important: false, like: false, id: this.id++},
+        {label: "That so is good", important: false, like: false, id: this.id++},
+        {label: "I need a break", important: false, like: false, id: this.id++}
       ]
     };
+
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
-    this.newData = [];
-    // this.counter();
-  }
+    this.onImportant = this.onImportant.bind(this);
+    this.onLike = this.onLike.bind(this);
 
-  // counter() {
-  //   this.state.data.forEach((item, i) => {
-  //     console.log(i);
-  //   })
-  //   for (let i; i < this.state.data; i++) {
-  //     console.log(i);
-  //   }
-  //   this.state.data.find(item => {
-  //     return console.log(item);
-  //   })
-  //   this.state.data.map((item, i) => {
-  //     return this.id = i
-  //   })
-  //   // console.log(this.state.data.lenght);
-  // }
+    this.newData = [];
+  }
 
   deleteItem(id) {
     this.setState(() => {
     const index = this.state.data.findIndex(item => item.id === id);
     // const newData = [...this.state.data.slice(0, index), ...this.state.data.slice(index + 1)];
-      this.newData = [...this.state.data.slice(0, index), ...this.state.data.slice(index + 1)]
-      console.log(this.newData);
+      this.newData = [...this.state.data.slice(0, index), ...this.state.data.slice(index + 1)];
       return {
         // data: newData
         data: this.newData
@@ -67,12 +53,12 @@ class App extends React.Component {
     const newItem = {
       label: value,
       important: false,
+      like: false,
       id: this.id++
     }
     this.setState(() => {
       // const newData = [...this.state.data, newItem];
-      this.newData = [...this.state.data, newItem]
-      console.log(this.newData);
+      this.newData = [...this.state.data, newItem];
       return {
         // data: newData
         data: this.newData
@@ -81,15 +67,40 @@ class App extends React.Component {
     })
   }
 
+  onImportant(id) {
+    this.setState(() => {
+      const index = this.state.data.findIndex(item => item.id === id);
+      const newItem = {...this.state.data[index], important: !this.state.data[index].important};
+      this.newData = [...this.state.data.slice(0, index), newItem, ...this.state.data.slice(index + 1)];
+      return {
+        data: this.newData
+      }
+    })
+  }
+
+  onLike(id) {
+    this.setState(() => {
+      const index = this.state.data.findIndex(item => item.id === id);
+      const newItem = {...this.state.data[index], like: !this.state.data[index].like};
+      this.newData = [...this.state.data.slice(0, index), newItem, ...this.state.data.slice(index + 1)];
+      return {
+        data: this.newData
+      }
+    })
+  }
+
   render() {
+    const likePost = this.state.data.filter(item => item.like).length;
+    const allPosts = this.state.data.length;
     return (
       <Div>
-        <AppHeader/>
+        <AppHeader likePostApp={likePost} allPostsApp={allPosts}/>
         <div className="search-panel d-flex">
           <SearchPanel/>
           <PostStatusFilter/>
         </div>
-        <PostList postsApp={this.state.data} deleteApp={this.deleteItem}/>
+        <PostList postsApp={this.state.data} deleteApp={this.deleteItem}
+        importantApp={this.onImportant} likeApp={this.onLike}/>
         <PostAddForm addApp={this.addItem}/>
       </Div>
     )

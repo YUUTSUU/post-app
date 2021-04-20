@@ -19,11 +19,11 @@ const Header = styled.div`
   }
 `;
 
-const AppHeader = () => {
+const AppHeader = (props) => {
   return (
     <Header>
       <h1>Yerzhan Taikeshev</h1>
-      <h2>5 записей, из них понравилось 0</h2>
+      <h2>{props.allPostsApp} записей, из них понравилось {props.likePostApp}</h2>
     </Header>
   )
 }
