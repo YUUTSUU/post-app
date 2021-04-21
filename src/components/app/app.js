@@ -20,13 +20,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+
     this.id = 0;
     this.state = {
       data: [
         {label: "Going to lealrn React", important: false, like: false, id: this.id++},
         {label: "That so is good", important: false, like: false, id: this.id++},
         {label: "I need a break", important: false, like: false, id: this.id++}
-      ]
+      ],
+      tern: ''
     };
 
     this.deleteItem = this.deleteItem.bind(this);
@@ -34,18 +36,17 @@ class App extends React.Component {
     this.onImportant = this.onImportant.bind(this);
     this.onLike = this.onLike.bind(this);
 
-    this.newData = [];
+    this.newData = [];   
   }
 
   deleteItem(id) {
     this.setState(() => {
     const index = this.state.data.findIndex(item => item.id === id);
-    // const newData = [...this.state.data.slice(0, index), ...this.state.data.slice(index + 1)];
       this.newData = [...this.state.data.slice(0, index), ...this.state.data.slice(index + 1)];
+      this.addLocal();
       return {
-        // data: newData
         data: this.newData
-      }
+      };
     });
   }
 
@@ -55,16 +56,15 @@ class App extends React.Component {
       important: false,
       like: false,
       id: this.id++
-    }
+    };
     this.setState(() => {
-      // const newData = [...this.state.data, newItem];
       this.newData = [...this.state.data, newItem];
+      this.addLocal();
       return {
-        // data: newData
         data: this.newData
-      }
-
-    })
+      };
+    });
+    
   }
 
   onImportant(id) {
@@ -72,9 +72,10 @@ class App extends React.Component {
       const index = this.state.data.findIndex(item => item.id === id);
       const newItem = {...this.state.data[index], important: !this.state.data[index].important};
       this.newData = [...this.state.data.slice(0, index), newItem, ...this.state.data.slice(index + 1)];
+      this.addLocal();
       return {
         data: this.newData
-      }
+      };
     })
   }
 
@@ -83,15 +84,21 @@ class App extends React.Component {
       const index = this.state.data.findIndex(item => item.id === id);
       const newItem = {...this.state.data[index], like: !this.state.data[index].like};
       this.newData = [...this.state.data.slice(0, index), newItem, ...this.state.data.slice(index + 1)];
+      this.addLocal();
       return {
         data: this.newData
-      }
+      };
     })
+  }
+
+  addLocal() {
+    localStorage.setItem('data', JSON.stringify(this.newData)); 
   }
 
   render() {
     const likePost = this.state.data.filter(item => item.like).length;
     const allPosts = this.state.data.length;
+
     return (
       <Div>
         <AppHeader likePostApp={likePost} allPostsApp={allPosts}/>
