@@ -28,13 +28,16 @@ class App extends React.Component {
         {label: "That so is good", important: false, like: false, id: this.id++},
         {label: "I need a break", important: false, like: false, id: this.id++}
       ],
-      tern: ''
+      term: '',
+      filter: 'all'
     };
 
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
     this.onImportant = this.onImportant.bind(this);
     this.onLike = this.onLike.bind(this);
+    this.updateSearchPost = this.updateSearchPost.bind(this);
+    this.filterSelect = this.filterSelect.bind(this);
 
     this.newData = [];   
   }
@@ -91,6 +94,38 @@ class App extends React.Component {
     })
   }
 
+  searchPost(data, term) {
+    if (term.length === 0) {
+      return data;
+    } else {
+      return data.filter(item => item.label.toLowerCase().indexOf(term) > -1);
+    }
+  }
+
+  updateSearchPost(term) {
+    this.setState(() => {
+      return {
+        term: term
+      }
+    })
+  }
+
+  filterPost(data, filter) {
+    if (filter === 'like') {
+      return data.filter(item => item.like)
+    } else {
+      return data
+    }
+  }
+
+  filterSelect(filter) {
+    this.setState(() => {
+      return {
+        filter: filter
+      }
+    })
+  }
+
   addLocal() {
     localStorage.setItem('data', JSON.stringify(this.newData)); 
   }
@@ -98,15 +133,16 @@ class App extends React.Component {
   render() {
     const likePost = this.state.data.filter(item => item.like).length;
     const allPosts = this.state.data.length;
+    const visiblePost = this.filterPost(this.searchPost(this.state.data, this.state.term), this.state.filter);
 
     return (
       <Div>
         <AppHeader likePostApp={likePost} allPostsApp={allPosts}/>
         <div className="search-panel d-flex">
-          <SearchPanel/>
-          <PostStatusFilter/>
+          <SearchPanel updateApp={this.updateSearchPost}/>
+          <PostStatusFilter filterApp={this.state.filter} filterSelectApp={this.filterSelect}/>
         </div>
-        <PostList postsApp={this.state.data} deleteApp={this.deleteItem}
+        <PostList postsApp={visiblePost} deleteApp={this.deleteItem}
         importantApp={this.onImportant} likeApp={this.onLike}/>
         <PostAddForm addApp={this.addItem}/>
       </Div>
